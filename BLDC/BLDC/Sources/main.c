@@ -61,7 +61,7 @@
 #include "IO_Map.h"
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
-#include "uC_Host.h"
+#include "shell.h"
 #include "Error.h"
 #include "BLDC.h"
 
