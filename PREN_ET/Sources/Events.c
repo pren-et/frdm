@@ -1,5 +1,5 @@
 /* ###################################################################
-**     Filename    : Events.h
+**     Filename    : Events.c
 **     Project     : uC_Host
 **     Processor   : MKL25Z128VLK4
 **     Component   : Events
@@ -15,7 +15,7 @@
 **
 ** ###################################################################*/
 /*!
-** @file Events.h
+** @file Events.c
 ** @version 01.00
 ** @brief
 **         This is user's event module.
@@ -25,44 +25,18 @@
 **  @addtogroup Events_module Events module documentation
 **  @{
 */         
-
-#ifndef __Events_H
-#define __Events_H
 /* MODULE Events */
 
-#include "PE_Types.h"
-#include "PE_Error.h"
-#include "PE_Const.h"
-#include "IO_Map.h"
-#include "FRTOS1.h"
-#include "UTIL1.h"
-#include "LedGreen.h"
-#include "LEDpin1.h"
-#include "BitIoLdd1.h"
-#include "LedRed.h"
-#include "LEDpin2.h"
-#include "BitIoLdd2.h"
-#include "CLS1.h"
-#include "WAIT1.h"
-#include "CS1.h"
-#include "AS1.h"
-#include "ASerialLdd1.h"
-//#include "RxBuf1.h"
-#include "CS_BLDC1.h"
-#include "BitIoLdd4.h"
-#include "CS_BLDC2.h"
-#include "BitIoLdd5.h"
-#include "BLDC1_IRQ.h"
-#include "ExtIntLdd1.h"
-#include "BLDC2_IRQ.h"
-#include "ExtIntLdd2.h"
-#include "BLDCspi.h"
-#include "SMasterLdd1.h"
+#include "Cpu.h"
+#include "Events.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif 
 
+
+/* User includes (#include below this line is not maintained by Processor Expert) */
+#include "BLDC.h"
 /*
 ** ===================================================================
 **     Event       :  Cpu_OnNMIINT (module Events)
@@ -76,10 +50,11 @@ extern "C" {
 **         interrupt] property is set to 'Enabled'.
 */
 /* ===================================================================*/
-void Cpu_OnNMIINT(void);
+void Cpu_OnNMIINT(void)
+{
+  /* Write your code here ... */
+}
 
-
-void FRTOS1_vApplicationStackOverflowHook(xTaskHandle pxTask, char *pcTaskName);
 /*
 ** ===================================================================
 **     Event       :  FRTOS1_vApplicationStackOverflowHook (module Events)
@@ -95,8 +70,19 @@ void FRTOS1_vApplicationStackOverflowHook(xTaskHandle pxTask, char *pcTaskName);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void FRTOS1_vApplicationStackOverflowHook(xTaskHandle pxTask, char *pcTaskName)
+{
+  /* This will get called if a stack overflow is detected during the context
+     switch.  Set configCHECK_FOR_STACK_OVERFLOWS to 2 to also check for stack
+     problems within nested interrupts, but only do this for debug purposes as
+     it will increase the context switch time. */
+  (void)pxTask;
+  (void)pcTaskName;
+  taskDISABLE_INTERRUPTS();
+  /* Write your code here ... */
+  for(;;) {}
+}
 
-void FRTOS1_vApplicationTickHook(void);
 /*
 ** ===================================================================
 **     Event       :  FRTOS1_vApplicationTickHook (module Events)
@@ -109,8 +95,12 @@ void FRTOS1_vApplicationTickHook(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void FRTOS1_vApplicationTickHook(void)
+{
+  /* Called for every RTOS tick. */
+  /* Write your code here ... */
+}
 
-void FRTOS1_vApplicationIdleHook(void);
 /*
 ** ===================================================================
 **     Event       :  FRTOS1_vApplicationIdleHook (module Events)
@@ -123,8 +113,13 @@ void FRTOS1_vApplicationIdleHook(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void FRTOS1_vApplicationIdleHook(void)
+{
+  /* Called whenever the RTOS is idle (from the IDLE task).
+     Here would be a good place to put the CPU into low power mode. */
+  /* Write your code here ... */
+}
 
-void FRTOS1_vApplicationMallocFailedHook(void);
 /*
 ** ===================================================================
 **     Event       :  FRTOS1_vApplicationMallocFailedHook (module Events)
@@ -137,6 +132,17 @@ void FRTOS1_vApplicationMallocFailedHook(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void FRTOS1_vApplicationMallocFailedHook(void)
+{
+  /* Called if a call to pvPortMalloc() fails because there is insufficient
+     free memory available in the FreeRTOS heap.  pvPortMalloc() is called
+     internally by FreeRTOS API functions that create tasks, queues, software
+     timers, and semaphores.  The size of the FreeRTOS heap is set by the
+     configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h. */
+  taskDISABLE_INTERRUPTS();
+  /* Write your code here ... */
+  for(;;) {}
+}
 
 /*
 ** ===================================================================
@@ -151,7 +157,10 @@ void FRTOS1_vApplicationMallocFailedHook(void);
 **         [Supervisor Call] property is set to 'Enabled'.
 */
 /* ===================================================================*/
-void Cpu_OnSupervisorCall(void);
+void Cpu_OnSupervisorCall(void)
+{
+	vPortSVCHandler();
+}
 
 /*
 ** ===================================================================
@@ -166,9 +175,11 @@ void Cpu_OnSupervisorCall(void);
 **         [Pendable Service] property is set to 'Enabled'.
 */
 /* ===================================================================*/
-void Cpu_OnPendableService(void);
+void Cpu_OnPendableService(void)
+{
+	vPortPendSVHandler();
+}
 
-void CLS1_OnBeforeIterateCmd(const uint8_t *cmd);
 /*
 ** ===================================================================
 **     Event       :  CLS1_OnBeforeIterateCmd (module Events)
@@ -182,8 +193,11 @@ void CLS1_OnBeforeIterateCmd(const uint8_t *cmd);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void CLS1_OnBeforeIterateCmd(const uint8_t *cmd)
+{
+  /* Write your code here ... */
+}
 
-void CLS1_OnAfterIterateCmd(const uint8_t *cmd);
 /*
 ** ===================================================================
 **     Event       :  CLS1_OnAfterIterateCmd (module Events)
@@ -197,8 +211,11 @@ void CLS1_OnAfterIterateCmd(const uint8_t *cmd);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void CLS1_OnAfterIterateCmd(const uint8_t *cmd)
+{
+  /* Write your code here ... */
+}
 
-void BLDCspi_OnRxChar(void);
 /*
 ** ===================================================================
 **     Event       :  BLDCspi_OnRxChar (module Events)
@@ -212,8 +229,12 @@ void BLDCspi_OnRxChar(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void BLDCspi_OnRxChar(void)
+{
+  /* Write your code here ... */
+	BLDC_Receive_from_spi();
+}
 
-void BLDCspi_OnTxChar(void);
 /*
 ** ===================================================================
 **     Event       :  BLDCspi_OnTxChar (module Events)
@@ -225,8 +246,11 @@ void BLDCspi_OnTxChar(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void BLDCspi_OnTxChar(void)
+{
+  /* Write your code here ... */
+}
 
-void BLDC2_IRQ_OnInterrupt(void);
 /*
 ** ===================================================================
 **     Event       :  BLDC2_IRQ_OnInterrupt (module Events)
@@ -239,8 +263,13 @@ void BLDC2_IRQ_OnInterrupt(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void BLDC2_IRQ_OnInterrupt(void)
+{
+#if MORE_AS_ONE_SLAVE
+	bldc2_irq_occurred();
+#endif
+}
 
-void BLDC1_IRQ_OnInterrupt(void);
 /*
 ** ===================================================================
 **     Event       :  BLDC1_IRQ_OnInterrupt (module Events)
@@ -253,6 +282,44 @@ void BLDC1_IRQ_OnInterrupt(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+void BLDC1_IRQ_OnInterrupt(void)
+{
+	bldc1_irq_occurred();
+}
+
+/*
+** ===================================================================
+**     Event       :  Stepperspi_OnRxChar (module Events)
+**
+**     Component   :  Stepperspi [SynchroMaster]
+**     Description :
+**         This event is called after a correct character is received.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void Stepperspi_OnRxChar(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  Stepperspi_OnTxChar (module Events)
+**
+**     Component   :  Stepperspi [SynchroMaster]
+**     Description :
+**         This event is called after a character is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void Stepperspi_OnTxChar(void)
+{
+  /* Write your code here ... */
+}
 
 /* END Events */
 
@@ -260,8 +327,6 @@ void BLDC1_IRQ_OnInterrupt(void);
 }  /* extern "C" */
 #endif 
 
-#endif 
-/* ifndef __Events_H*/
 /*!
 ** @}
 */

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>BLDC_OLD</name>
+	<name>PREN-ET</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -31,6 +31,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
 	<linkedResources>
+		<link>
+			<name>Sources/Stepper_driver</name>
+			<type>2</type>
+			<locationURI>STEPPER_DRV_LOC/drv</locationURI>
+		</link>
 		<link>
 			<name>Static_Code/IO_Map/MKL25Z4.h</name>
 			<type>1</type>
@@ -147,4 +152,10 @@
 			<location>/opt/Freescale/KDS_1.9.9/eclipse/ProcessorExpert/lib/Kinetis/pdd/inc/USB_PDD.h</location>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>STEPPER_DRV_LOC</name>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/stepper/driver</value>
+		</variable>
+	</variableList>
 </projectDescription>

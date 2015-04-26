@@ -52,6 +52,10 @@
 #include "ExtIntLdd1.h"
 #include "BLDC2_IRQ.h"
 #include "ExtIntLdd2.h"
+#include "Stepperspi.h"
+#include "SMasterLdd2.h"
+#include "Vent.h"
+#include "BitsIoLdd1.h"
 #include "BLDCspi.h"
 #include "SMasterLdd1.h"
 /* Including shared modules, which are used for whole project */
@@ -64,6 +68,7 @@
 #include "shell.h"
 #include "Error.h"
 #include "BLDC.h"
+#include "../../../stepper/driver/drv/l6480.h"
 
 
 static void Task1(void *pvParameters)
