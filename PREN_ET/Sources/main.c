@@ -107,6 +107,7 @@ int main(void)
 
 
   set_status(STATUS_RESET);
+  l6480_init();							// Compilertest
   BLDC_init();
   SHELL_Init();
 

@@ -8,6 +8,8 @@
 #ifndef UC_HOST_H_
 #define UC_HOST_H_
 
+#define PL_HAS_SHELL (1)
+
 /*! \brief Serial driver initialization */
 void SHELL_Init(void);
 

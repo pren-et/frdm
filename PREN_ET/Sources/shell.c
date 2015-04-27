@@ -11,6 +11,7 @@
 #include "LedRed.h"
 #include "LedGreen.h"
 #include "Error.h"
+#include "../../../stepper/driver/drv/l6480.h"
 #include "BLDC.h"
 #include "WAIT1.h"
 
@@ -22,6 +23,7 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
 		BLDC_ParseCommand,
 #endif
 
+		l6480_ParseCommand,
 		NULL
 };
 
