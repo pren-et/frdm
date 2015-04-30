@@ -104,12 +104,47 @@ int main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
+  	l6480_init();							// Compilertest
+	l6480_cmd_getstatus();
+
+	/*******************************************************
+	 * Einstellungen fï¿½r den Motor und die Treiberstufen   *
+	 ******************************************************/
+	l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
+	l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
+	l6480_set_gatecfg1_igate_milliampere(96);	// Gatstrom
+	l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
+	l6480_set_gatecfg1_tboost_nanosecond(125);
+	l6480_set_gatecfg2_tdt_nanosecond(250);
+	l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
+	l6480_set_kval_hold(20);						// KVAL Motor Stillstand
+	l6480_set_kval_run(64);						// kVAL Motor Run
+	l6480_set_kval_acc(64);
+	l6480_set_kval_dec(64);
+
 
 
   set_status(STATUS_RESET);
   l6480_init();							// Compilertest
   BLDC_init();
   SHELL_Init();
+  l6480_cmd_hardstop();							// Aus HiZ
+  uint16_t speed = 0;
+  for(;;){
+	  l6480_cmd_softstop();
+	  WAIT1_Waitms(1000);
+	  l6480_cmd_run(0,speed); 					// Motor rueckwärts
+	  WAIT1_Waitms(2000);
+	  l6480_cmd_softstop();						//
+	  WAIT1_Waitms(1000);
+	  if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+		  speed += 1000;
+	  }
+	  else {
+		  speed = 0;							// Geschwindigkeit rï¿½cksetzen
+	  }
+  }
+  l6480_cmd_goto(1000);
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
