@@ -133,15 +133,15 @@ int main(void)
   for(;;){
 	  l6480_cmd_softstop();
 	  WAIT1_Waitms(1000);
-	  l6480_cmd_run(0,speed); 					// Motor rueckwärts
+	  l6480_cmd_run(0,speed); 					// Motor reverse
 	  WAIT1_Waitms(2000);
 	  l6480_cmd_softstop();						//
 	  WAIT1_Waitms(1000);
-	  if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+	  if (speed < 0xfffff) {					// increase speed
 		  speed += 1000;
 	  }
 	  else {
-		  speed = 0;							// Geschwindigkeit rï¿½cksetzen
+		  speed = 0;							// reset speed
 	  }
   }
   l6480_cmd_goto(1000);
