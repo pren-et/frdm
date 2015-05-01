@@ -99,9 +99,9 @@ static void Task1(void *pvParameters)
 	while (1) {
 		LedGreen_Neg();
 
-        l6480_cmd_run(1,speed); 					// Motor reverse
+        //l6480_cmd_run(1,speed); 					// Motor reverse
 		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
-        l6480_cmd_softstop();						//
+        //l6480_cmd_softstop();						//
         if (speed < 0xfffff) {					// increase speed
           speed += 1000;
         }
