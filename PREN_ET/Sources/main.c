@@ -43,6 +43,8 @@
 #include "CS1.h"
 #include "AS1.h"
 #include "ASerialLdd1.h"
+#include "BLDCspi.h"
+#include "SMasterLdd1.h"
 //#include "RxBuf1.h"
 #include "CS_BLDC1.h"
 #include "BitIoLdd4.h"
@@ -56,8 +58,6 @@
 #include "SMasterLdd2.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
-#include "BLDCspi.h"
-#include "SMasterLdd1.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -68,17 +68,48 @@
 #include "shell.h"
 #include "Error.h"
 #include "BLDC.h"
-#include "../../../stepper/driver/drv/l6480.h"
+//#include "../../../stepper/driver/drv/l6480.h"
+#include "l6480.h"
 
 
 static void Task1(void *pvParameters)
 {
 	(void)pvParameters;
+
+	//l6480_cmd_getstatus();
+
+	/*******************************************************
+	 * Einstellungen f�r den Motor und die Treiberstufen   *
+	 ******************************************************/
+	l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
+	l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
+	l6480_set_gatecfg1_igate_milliampere(96);	// Gatstrom
+	l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
+	l6480_set_gatecfg1_tboost_nanosecond(125);
+	l6480_set_gatecfg2_tdt_nanosecond(250);
+	l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
+	l6480_set_kval_hold(64);						// KVAL Motor Stillstand
+	l6480_set_kval_run(64);						// kVAL Motor Run
+	l6480_set_kval_acc(64);
+	l6480_set_kval_dec(64);
+    l6480_cmd_hardstop();							// Aus HiZ
+    uint16_t speed = 0;
+    //uint8_t data = 0;
+
 	while (1) {
 		LedGreen_Neg();
+
+        l6480_cmd_run(1,speed); 					// Motor reverse
+		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
+        l6480_cmd_softstop();						//
+        if (speed < 0xfffff) {					// increase speed
+          speed += 1000;
+        }
+        else {
+          speed = 0;							// reset speed
+        }
 		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
 	}
-
 }
 
 static void Task2(void *pvParameters)
@@ -105,46 +136,18 @@ int main(void)
   /* Write your code here */
   /* For example: for(;;) { } */
   	l6480_init();							// Compilertest
-	l6480_cmd_getstatus();
-
-	/*******************************************************
-	 * Einstellungen f�r den Motor und die Treiberstufen   *
-	 ******************************************************/
-	l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
-	l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
-	l6480_set_gatecfg1_igate_milliampere(96);	// Gatstrom
-	l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
-	l6480_set_gatecfg1_tboost_nanosecond(125);
-	l6480_set_gatecfg2_tdt_nanosecond(250);
-	l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
-	l6480_set_kval_hold(20);						// KVAL Motor Stillstand
-	l6480_set_kval_run(64);						// kVAL Motor Run
-	l6480_set_kval_acc(64);
-	l6480_set_kval_dec(64);
-
 
 
   set_status(STATUS_RESET);
-  l6480_init();							// Compilertest
   BLDC_init();
   SHELL_Init();
-  l6480_cmd_hardstop();							// Aus HiZ
-  uint16_t speed = 0;
-  for(;;){
-	  l6480_cmd_softstop();
-	  WAIT1_Waitms(1000);
-	  l6480_cmd_run(0,speed); 					// Motor reverse
-	  WAIT1_Waitms(2000);
-	  l6480_cmd_softstop();						//
-	  WAIT1_Waitms(1000);
-	  if (speed < 0xfffff) {					// increase speed
-		  speed += 1000;
-	  }
-	  else {
-		  speed = 0;							// reset speed
-	  }
+
+  if (FRTOS1_xTaskCreate(Task1, "Task1", configMINIMAL_STACK_SIZE, NULL,
+              tskIDLE_PRIORITY, NULL) != pdPASS) {
+      for (;;) {
+      } /* error */
   }
-  l6480_cmd_goto(1000);
+
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/

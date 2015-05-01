@@ -47,6 +47,8 @@
 #include "CS1.h"
 #include "AS1.h"
 #include "ASerialLdd1.h"
+#include "BLDCspi.h"
+#include "SMasterLdd1.h"
 //#include "RxBuf1.h"
 #include "CS_BLDC1.h"
 #include "BitIoLdd4.h"
@@ -60,8 +62,6 @@
 #include "SMasterLdd2.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
-#include "BLDCspi.h"
-#include "SMasterLdd1.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -217,19 +217,6 @@ void BLDCspi_OnRxChar(void);
 ** ===================================================================
 */
 
-void BLDCspi_OnTxChar(void);
-/*
-** ===================================================================
-**     Event       :  BLDCspi_OnTxChar (module Events)
-**
-**     Component   :  BLDCspi [SynchroMaster]
-**     Description :
-**         This event is called after a character is transmitted.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-
 void BLDC2_IRQ_OnInterrupt(void);
 /*
 ** ===================================================================
@@ -279,6 +266,19 @@ void Stepperspi_OnTxChar(void);
 **     Event       :  Stepperspi_OnTxChar (module Events)
 **
 **     Component   :  Stepperspi [SynchroMaster]
+**     Description :
+**         This event is called after a character is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void BLDCspi_OnTxChar(void);
+/*
+** ===================================================================
+**     Event       :  BLDCspi_OnTxChar (module Events)
+**
+**     Component   :  BLDCspi [SynchroMaster]
 **     Description :
 **         This event is called after a character is transmitted.
 **     Parameters  : None

@@ -237,22 +237,6 @@ void BLDCspi_OnRxChar(void)
 
 /*
 ** ===================================================================
-**     Event       :  BLDCspi_OnTxChar (module Events)
-**
-**     Component   :  BLDCspi [SynchroMaster]
-**     Description :
-**         This event is called after a character is transmitted.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void BLDCspi_OnTxChar(void)
-{
-  /* Write your code here ... */
-}
-
-/*
-** ===================================================================
 **     Event       :  BLDC2_IRQ_OnInterrupt (module Events)
 **
 **     Component   :  BLDC2_IRQ [ExtInt]
@@ -317,6 +301,22 @@ void Stepperspi_OnRxChar(void)
 ** ===================================================================
 */
 void Stepperspi_OnTxChar(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  BLDCspi_OnTxChar (module Events)
+**
+**     Component   :  BLDCspi [SynchroMaster]
+**     Description :
+**         This event is called after a character is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void BLDCspi_OnTxChar(void)
 {
   /* Write your code here ... */
 }
