@@ -60,6 +60,10 @@
 #include "ExtIntLdd2.h"
 #include "Stepperspi.h"
 #include "SMasterLdd2.h"
+#include "HF1.h"
+#include "BT1.h"
+#include "Serial1.h"
+#include "ASerialLdd2.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 
