@@ -6,7 +6,7 @@
  */
 
 #include "FRTOS1.h"
-#include "shell.h"
+#include "Shell.h"
 #include "CLS1.h"
 #include "LedRed.h"
 #include "LedGreen.h"
@@ -58,4 +58,9 @@ void SHELL_Init(void)
 		}
 	}
 	set_status(STATUS_OK);
+}
+
+void shellSendDone(void){
+    CLS1_SendStr((unsigned char*)"job done\r\n", CLS1_GetStdio()->stdErr);
+
 }

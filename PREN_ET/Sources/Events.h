@@ -64,6 +64,8 @@
 #include "BT1.h"
 #include "Serial1.h"
 #include "ASerialLdd2.h"
+#include "STP_BSY.h"
+#include "ExtIntLdd3.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 
@@ -285,6 +287,20 @@ void BLDCspi_OnTxChar(void);
 **     Component   :  BLDCspi [SynchroMaster]
 **     Description :
 **         This event is called after a character is transmitted.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void STP_BSY_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  STP_BSY_OnInterrupt (module Events)
+**
+**     Component   :  STP_BSY [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

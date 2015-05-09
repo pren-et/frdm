@@ -60,6 +60,8 @@
 #include "BT1.h"
 #include "Serial1.h"
 #include "ASerialLdd2.h"
+#include "STP_BSY.h"
+#include "ExtIntLdd3.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 /* Including shared modules, which are used for whole project */
@@ -69,7 +71,7 @@
 #include "IO_Map.h"
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
-#include "shell.h"
+#include "Shell.h"
 #include "Error.h"
 #include "BLDC.h"
 //#include "../../../stepper/driver/drv/l6480.h"
