@@ -3,8 +3,8 @@
   <Header>
     <Name>PREN-ET</Name>
     <SavedBy>daniw</SavedBy>
-    <ModificationStamp>127</ModificationStamp>
-    <Date>2015-05-09</Date>
+    <ModificationStamp>128</ModificationStamp>
+    <Date>2015-05-14</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.1.RT6_b1437-1025</PEversion>
   </Header>
@@ -9000,6 +9000,8 @@
               <List lines_count="0" />
               <UnitText />
               <MinCounterTicks>0</MinCounterTicks>
+              <ControlledTimingCfgFromPropertySymbol>PeriodTmg</ControlledTimingCfgFromPropertySymbol>
+              <ControlledTimingCfgFromComponentRef>InheritedComponent</ControlledTimingCfgFromComponentRef>
             </ItemState>
             <ItemState>
               <ItemSymbol>InitDuty</ItemSymbol>
@@ -9039,6 +9041,8 @@
               <List lines_count="0" />
               <UnitText />
               <MinCounterTicks>0</MinCounterTicks>
+              <ControlledTimingCfgFromPropertySymbol>DutyTmg</ControlledTimingCfgFromPropertySymbol>
+              <ControlledTimingCfgFromComponentRef>InheritedComponent</ControlledTimingCfgFromComponentRef>
             </ItemState>
             <ItemState>
               <ItemSymbol>HC08grp</ItemSymbol>
@@ -21184,7 +21188,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <Value>PTE4/SPI1_PCS0</Value>
-        <SharedPrphMode>true</SharedPrphMode>
+        <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
         <ItemSymbol>SSpinSignal</ItemSymbol>
