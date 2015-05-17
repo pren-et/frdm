@@ -29,6 +29,7 @@
 
 #include "Cpu.h"
 #include "Events.h"
+#include "Shell.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -337,6 +338,44 @@ void STP_BSY_OnInterrupt(void)
 {
   /* Write your code here ... */
 	shellSendDone();
+}
+
+/*
+** ===================================================================
+**     Event       :  ENDSW_LOAD_IRQ_OnInterrupt (module Events)
+**
+**     Component   :  ENDSW_LOAD_IRQ [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void ENDSW_LOAD_IRQ_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	shellSendEndpointLoad();
+	PWM1_Disable();
+}
+
+/*
+** ===================================================================
+**     Event       :  ENDSW_SHOOT_IRQ_OnInterrupt (module Events)
+**
+**     Component   :  ENDSW_SHOOT_IRQ [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void ENDSW_SHOOT_IRQ_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	shellSendEndpointShoot();
+	PWM1_Disable();
 }
 
 /* END Events */

@@ -62,5 +62,12 @@ void SHELL_Init(void)
 
 void shellSendDone(void){
     CLS1_SendStr((unsigned char*)"job done\r\n", CLS1_GetStdio()->stdErr);
+}
 
+void shellSendEndpointShoot(void){
+    CLS1_SendStr((unsigned char*)"endpoint shoot hit\r\n", CLS1_GetStdio()->stdErr);
+}
+
+void shellSendEndpointLoad(void){
+    CLS1_SendStr((unsigned char*)"endpoint load hit\r\n", CLS1_GetStdio()->stdErr);
 }

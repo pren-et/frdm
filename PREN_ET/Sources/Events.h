@@ -56,8 +56,6 @@
 #include "BitIoLdd5.h"
 #include "BLDC1_IRQ.h"
 #include "ExtIntLdd1.h"
-#include "BLDC2_IRQ.h"
-#include "ExtIntLdd2.h"
 #include "Stepperspi.h"
 #include "SMasterLdd2.h"
 #include "HF1.h"
@@ -71,6 +69,10 @@
 #include "TU1.h"
 #include "DIR.h"
 #include "BitIoLdd6.h"
+#include "ENDSW_SHOOT_IRQ.h"
+#include "ExtIntLdd4.h"
+#include "ENDSW_LOAD_IRQ.h"
+#include "ExtIntLdd5.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 
@@ -303,6 +305,34 @@ void STP_BSY_OnInterrupt(void);
 **     Event       :  STP_BSY_OnInterrupt (module Events)
 **
 **     Component   :  STP_BSY [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void ENDSW_LOAD_IRQ_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  ENDSW_LOAD_IRQ_OnInterrupt (module Events)
+**
+**     Component   :  ENDSW_LOAD_IRQ [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void ENDSW_SHOOT_IRQ_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  ENDSW_SHOOT_IRQ_OnInterrupt (module Events)
+**
+**     Component   :  ENDSW_SHOOT_IRQ [ExtInt]
 **     Description :
 **         This event is called when an active signal edge/level has
 **         occurred.

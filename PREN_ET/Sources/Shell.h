@@ -14,5 +14,7 @@
 void SHELL_Init(void);
 
 void shellSendDone(void);
+void shellSendEndpointShoot(void);
+void shellSendEndpointLoad(void);
 
 #endif /* UC_HOST_H_ */
