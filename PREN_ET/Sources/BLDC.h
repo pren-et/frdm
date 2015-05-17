@@ -16,7 +16,7 @@
 #define CS_HANDELD_BY_CODEEXPERT 0
 
 #if CS_HANDELD_BY_CODEEXPERT == 0
-#define MORE_AS_ONE_SLAVE 1
+#define MORE_AS_ONE_SLAVE 0
 #endif
 typedef enum
 {

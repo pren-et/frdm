@@ -66,6 +66,11 @@
 #include "ASerialLdd2.h"
 #include "STP_BSY.h"
 #include "ExtIntLdd3.h"
+#include "PWM1.h"
+#include "PwmLdd2.h"
+#include "TU1.h"
+#include "DIR.h"
+#include "BitIoLdd6.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 

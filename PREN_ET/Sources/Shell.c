@@ -13,17 +13,17 @@
 #include "Error.h"
 #include "../../../stepper/driver/drv/l6480.h"
 #include "BLDC.h"
+#include "DC.h"
 #include "WAIT1.h"
 
 static const CLS1_ParseCommandCallback CmdParserTable[] =
 {
 		CLS1_ParseCommand,
-
 #if BLDC_PARSE_COMMAND_ENABLED
 		BLDC_ParseCommand,
 #endif
-
 		l6480_ParseCommand,
+        DC_ParseCommand,
 		NULL
 };
 
