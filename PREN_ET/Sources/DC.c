@@ -9,6 +9,7 @@
 #include "DC.h"
 #include "PWM1.h"
 #include "DIR.h"
+#include "Events.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -53,10 +54,19 @@ byte DC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOTy
         *handled = TRUE;
         return ERR_OK;
     }
+    else if (UTIL1_strcmp((char*)cmd, "shoot") == 0)
+    {
+        *handled = TRUE;
+        PWM1_SetDutyUS(83);
+        PWM1_Enable();
+        DC_timer_cnt = 22;
+        return ERR_OK;
+    }
     else if (UTIL1_strcmp((char*)cmd, "DC on") == 0)
     {
         *handled = TRUE;
         PWM1_Enable();
+        DC_timer_cnt = 22;
         return ERR_OK;
     }
     else if (UTIL1_strcmp((char*)cmd, "DC off") == 0)

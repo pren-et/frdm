@@ -69,6 +69,9 @@
 #include "ExtIntLdd4.h"
 #include "ENDSW_LOAD_IRQ.h"
 #include "ExtIntLdd5.h"
+#include "TI1.h"
+#include "TimerIntLdd1.h"
+#include "TU2.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 /* Including shared modules, which are used for whole project */

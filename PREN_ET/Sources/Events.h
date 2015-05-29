@@ -73,6 +73,9 @@
 #include "ExtIntLdd4.h"
 #include "ENDSW_LOAD_IRQ.h"
 #include "ExtIntLdd5.h"
+#include "TI1.h"
+#include "TimerIntLdd1.h"
+#include "TU2.h"
 #include "Vent.h"
 #include "BitsIoLdd1.h"
 
@@ -340,6 +343,22 @@ void ENDSW_SHOOT_IRQ_OnInterrupt(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+
+/*
+** ===================================================================
+**     Event       :  TI1_OnInterrupt (module Events)
+**
+**     Component   :  TI1 [TimerInt]
+**     Description :
+**         When a timer interrupt occurs this event is called (only
+**         when the component is enabled - <Enable> and the events are
+**         enabled - <EnableEvent>). This event is enabled only if a
+**         <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void TI1_OnInterrupt(void);
 
 /* END Events */
 
