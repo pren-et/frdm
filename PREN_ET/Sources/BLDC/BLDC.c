@@ -52,8 +52,8 @@
 
 typedef enum
 {
-	ON,
-	OFF
+	BLDC_STATE_ON,
+	BLDC_STATE_OFF
 }MotorState;
 
 typedef enum
@@ -90,7 +90,7 @@ static BldcMotors_t Motor = BLDC1;
 void BLDC_init(void)
 {
 	BLDC1_Status.ErrorCode = 0x00;
-	BLDC1_Status.State = OFF;
+	BLDC1_Status.State = BLDC_STATE_OFF;
 	BLDC1_Status.rpm.value = 0x8000;
 	if( BLDC1_Status.rpm.byte.high != 0x80)
 	{
@@ -125,7 +125,7 @@ static uint8_t PrintStatus(const CLS1_StdIOType *io)
 	unsigned char error_message[10] = { '\0' };
 	CLS1_SendStatusStr((unsigned char*)"BLDC Status ist",(unsigned char*)"\r\n", io->stdOut);
 
-	if (BLDC1_Status.State == ON)
+	if (BLDC1_Status.State == BLDC_STATE_ON)
 	{
 		CLS1_SendStatusStr((unsigned char*)"  on", (unsigned char*)"yes\r\n", io->stdOut);
 	}
@@ -362,9 +362,9 @@ void BLDC_Receive_from_spi(void)
 		{
 			/*This is the Motor-state */
 			if( recv == 0 || recv == 1 )
-				BLDC1_Status.State = OFF;
+				BLDC1_Status.State = BLDC_STATE_OFF;
 			if( recv == 2 || recv == 3 )
-				BLDC1_Status.State = ON;
+				BLDC1_Status.State = BLDC_STATE_ON;
 		}
 		else if ( actualCmd == CMD_GET_STATUS - 2 )
 		{
