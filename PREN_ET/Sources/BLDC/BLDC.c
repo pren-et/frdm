@@ -24,6 +24,8 @@
 #define CS_ENABLE FALSE
 #define CS_DISABLE TRUE
 
+#define BLDC_SOUND_MIN 1
+#define BLDC_SOUND_MAX 2
 #define BLDC_RPM_MIN 1
 #define BLDC_RPM_MAX 0xFFFF
 #define BLDC_PWM_MIN 1
@@ -43,7 +45,7 @@
 #define CMD_SET_CURRENT        0x51
 #define CMD_ARE_YOU_ALIVE      0x71
 #define CMD_SET_PWM		       0x81
-#define CMD_PLAY_SOUND	       0x90
+#define CMD_PLAY_SOUND	       0x91
 #define CMD_GET_STATUS         0x64
 #define CMD_MEASUREMENT        0xD0
 #define CMD_MEASUREMENT_PARAM  0xC0
@@ -80,6 +82,7 @@ typedef struct{
 }BLDC_MotorState;
 
 static uint8_t actualCmd = CMD_DUMMY;
+static uint8_t BldcSelectedSoundTrack = 0;
 static BLDC_MotorState BLDC1_Status;
 static DobuleByteStruct Rpm_to_send;
 static uint16_t BLDC_enable = 0;
@@ -107,6 +110,7 @@ void BLDC_init(void)
 	BLDC1_Status.rpm.value = 0x0000;
 	Rpm_to_send.value = 0;
 	Motor = BLDC1;
+	BldcSelectedSoundTrack = 0;
 }
 
 void handleCS(bool en)
@@ -175,8 +179,8 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io)
 	CLS1_SendHelpStr((unsigned char*)"  startmeasurement ",
 			 (unsigned char*)"start a measurement with a step\r\n",
 			 io->stdOut);
-	CLS1_SendHelpStr((unsigned char*)"  sound ",
-			 (unsigned char*)"start playing sound with the motor\r\n",
+	CLS1_SendHelpStr((unsigned char*)"  sound n",
+			 (unsigned char*)"start playing the selected sound with the motor\r\n",
 			 io->stdOut);
 	return ERR_OK;
 }
@@ -242,14 +246,23 @@ byte BLDC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIO
 		handleCS(CS_ENABLE);
 		(void) BLDCspi_SendChar(actualCmd);
 		return ERR_OK;
-	}
-	else if (UTIL1_strcmp((char*)cmd, "BLDC sound") == 0)
+	}else if (UTIL1_strncmp((char*)cmd, "BLDC sound ", sizeof("BLDC sound")-1) == 0)
 	{
-		*handled = TRUE;
-		actualCmd = CMD_PLAY_SOUND;
-		handleCS(CS_ENABLE);
-		(void) BLDCspi_SendChar(actualCmd);
-		return ERR_OK;
+		p = cmd+sizeof("BLDC sound");
+		if (UTIL1_xatoi(&p, &val) == ERR_OK && val >= BLDC_SOUND_MIN && val <= BLDC_SOUND_MAX)
+		{
+			BldcSelectedSoundTrack = val;
+			actualCmd = CMD_PLAY_SOUND;
+			handleCS(CS_ENABLE);
+			(void) BLDCspi_SendChar(actualCmd);
+			BLDCspi_SendChar(BldcSelectedSoundTrack);
+			*handled = TRUE;
+		}
+		else
+		{
+			sprintf(message, "Wrong argument, must be in range %i to %i", BLDC_RPM_MIN, BLDC_RPM_MAX);
+			CLS1_SendStr((unsigned char*)message, io->stdErr);
+		}
 	}
 	else if (UTIL1_strncmp((char*)cmd, "BLDC setrpm ", sizeof("BLDC setrpm")-1) == 0)
 	{
