@@ -24,6 +24,8 @@
 #define CS_ENABLE FALSE
 #define CS_DISABLE TRUE
 
+#define BLDC_SOUND_MIN 1
+#define BLDC_SOUND_MAX 255
 #define BLDC_RPM_MIN 1
 #define BLDC_RPM_MAX 0xFFFF
 #define BLDC_PWM_MIN 1
@@ -80,6 +82,7 @@ typedef struct{
 }BLDC_MotorState;
 
 static uint8_t actualCmd = CMD_DUMMY;
+static uint8_t BldcSelectedSoundTrack = 0;
 static BLDC_MotorState BLDC1_Status;
 static DobuleByteStruct Rpm_to_send;
 static uint16_t BLDC_enable = 0;
@@ -107,6 +110,7 @@ void BLDC_init(void)
 	BLDC1_Status.rpm.value = 0x0000;
 	Rpm_to_send.value = 0;
 	Motor = BLDC1;
+    BldcSelectedSoundTrack = 0;
 }
 
 void handleCS(bool en)
@@ -176,7 +180,7 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io)
 			 (unsigned char*)"start a measurement with a step\r\n",
 			 io->stdOut);
 	CLS1_SendHelpStr((unsigned char*)"  sound xx",
-			 (unsigned char*)"supported tracks are a-team, tetris, insomnia, popcorn and axel\r\n",
+			 (unsigned char*)"supported tracks are a-team, tetris, insomnia, popcorn, sandstorm and axel\r\n",
 			 io->stdOut);
 	return ERR_OK;
 }
@@ -282,7 +286,32 @@ byte BLDC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIO
 		(void) BLDCspi_SendChar(actualCmd);
 		BLDCspi_SendChar(5);
 		return ERR_OK;
-	}
+	}else if (UTIL1_strcmp((char*)cmd, "BLDC sound sandstorm") == 0)
+	{
+		*handled = TRUE;
+		actualCmd = CMD_PLAY_SOUND;
+		handleCS(CS_ENABLE);
+		(void) BLDCspi_SendChar(actualCmd);
+		BLDCspi_SendChar(6);
+		return ERR_OK;
+    }else if (UTIL1_strncmp((char*)cmd, "BLDC sound ", sizeof("BLDC sound")-1) == 0)
+    {
+        p = cmd+sizeof("BLDC sound");
+        if (UTIL1_xatoi(&p, &val) == ERR_OK && val >= BLDC_SOUND_MIN && val <= BLDC_SOUND_MAX)
+        {
+            BldcSelectedSoundTrack = val;
+            actualCmd = CMD_PLAY_SOUND;
+            handleCS(CS_ENABLE);
+            (void) BLDCspi_SendChar(actualCmd);
+            BLDCspi_SendChar(BldcSelectedSoundTrack);
+            *handled = TRUE;
+        }
+        else
+        {
+            sprintf(message, "Wrong argument, must be in range %i to %i", BLDC_RPM_MIN, BLDC_RPM_MAX);
+            CLS1_SendStr((unsigned char*)message, io->stdErr);
+        }
+    }
 	else if (UTIL1_strncmp((char*)cmd, "BLDC setrpm ", sizeof("BLDC setrpm")-1) == 0)
 	{
 		p = cmd+sizeof("BLDC setrpm");
