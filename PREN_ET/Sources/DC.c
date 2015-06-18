@@ -59,7 +59,7 @@ byte DC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOTy
         *handled = TRUE;
         PWM1_SetDutyUS(83);
         PWM1_Enable();
-        DC_timer_cnt = 22;
+        DC_timer_cnt = 23;
         return ERR_OK;
     }
     else if (UTIL1_strcmp((char*)cmd, "DC on") == 0)

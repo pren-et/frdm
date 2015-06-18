@@ -71,3 +71,7 @@ void shellSendEndpointShoot(void){
 void shellSendEndpointLoad(void){
     CLS1_SendStr((unsigned char*)"endpoint load hit\r\n", CLS1_GetStdio()->stdErr);
 }
+
+void shellSendShootFinished(void) {
+    CLS1_SendStr((unsigned char*)"shoot finished\r\n", CLS1_GetStdio()->stdErr);
+}

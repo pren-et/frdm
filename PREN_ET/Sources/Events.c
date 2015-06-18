@@ -399,6 +399,11 @@ void TI1_OnInterrupt(void)
 	if (DC_timer_cnt == 0) {
         PWM1_Disable();
 	}
+	else if (DC_timer_cnt == 1) {
+        PWM1_Disable();
+        shellSendShootFinished();
+		DC_timer_cnt--;
+	}
 	else {
 		DC_timer_cnt--;
 	}
@@ -420,4 +425,6 @@ void TI1_OnInterrupt(void)
 **     for the Freescale Kinetis series of microcontrollers.
 **
 ** ###################################################################
+*/
+/* ###################################################################
 */
