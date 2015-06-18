@@ -109,22 +109,10 @@ static void Task1(void *pvParameters)
 	l6480_set_kval_acc(64);
 	l6480_set_kval_dec(64);
     l6480_cmd_hardstop();							// Aus HiZ
-    uint16_t speed = 0;
-    //uint8_t data = 0;
 
 	while (1) {
 		LedGreen_Neg();
-
-        //l6480_cmd_run(1,speed); 					// Motor reverse
-		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
-        //l6480_cmd_softstop();						//
-        if (speed < 0xfffff) {					// increase speed
-          speed += 1000;
-        }
-        else {
-          speed = 0;							// reset speed
-        }
-		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
+		FRTOS1_vTaskDelay(500/portTICK_RATE_MS);
 	}
 }
 
