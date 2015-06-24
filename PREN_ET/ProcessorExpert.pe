@@ -3,8 +3,8 @@
   <Header>
     <Name>PREN-ET</Name>
     <SavedBy>daniw</SavedBy>
-    <ModificationStamp>145</ModificationStamp>
-    <Date>2015-06-18</Date>
+    <ModificationStamp>148</ModificationStamp>
+    <Date>2015-06-19</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.1.RT6_b1437-1025</PEversion>
   </Header>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>208</ProjectCompNumb>
+    <ProjectCompNumb>211</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -9063,6 +9063,8 @@
               <List lines_count="0" />
               <UnitText />
               <MinCounterTicks>0</MinCounterTicks>
+              <ControlledTimingCfgFromPropertySymbol>PeriodTmg</ControlledTimingCfgFromPropertySymbol>
+              <ControlledTimingCfgFromComponentRef>InheritedComponent</ControlledTimingCfgFromComponentRef>
             </ItemState>
             <ItemState>
               <ItemSymbol>InitDuty</ItemSymbol>
@@ -9102,6 +9104,8 @@
               <List lines_count="0" />
               <UnitText />
               <MinCounterTicks>0</MinCounterTicks>
+              <ControlledTimingCfgFromPropertySymbol>DutyTmg</ControlledTimingCfgFromPropertySymbol>
+              <ControlledTimingCfgFromComponentRef>InheritedComponent</ControlledTimingCfgFromComponentRef>
             </ItemState>
             <ItemState>
               <ItemSymbol>HC08grp</ItemSymbol>
@@ -15086,7 +15090,7 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>NofHistoryItems</ItemSymbol>

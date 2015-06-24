@@ -180,7 +180,31 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io)
 			 (unsigned char*)"start a measurement with a step\r\n",
 			 io->stdOut);
 	CLS1_SendHelpStr((unsigned char*)"  sound xx",
-			 (unsigned char*)"supported tracks are a-team, tetris, insomnia, popcorn, sandstorm and axel\r\n",
+			 (unsigned char*)"supported tracks are the following: \r\n",
+             io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        axel",
+             (unsigned char*)"Axel F\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        tetris",
+             (unsigned char*)"Tetris theme\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        ateam",
+             (unsigned char*)"A-Team theme\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        insomnia",
+             (unsigned char*)"Insomnia\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        popcorn",
+             (unsigned char*)"Popcorn\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        sandstorm",
+             (unsigned char*)"Sandstorm\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        airwolf",
+             (unsigned char*)"Airwolf theme\r\n",
+			 io->stdOut);
+	CLS1_SendHelpStr((unsigned char*)"        imperial",
+             (unsigned char*)"Imperial March\r\n",
 			 io->stdOut);
 	return ERR_OK;
 }
@@ -262,7 +286,7 @@ byte BLDC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIO
 		(void) BLDCspi_SendChar(actualCmd);
 		BLDCspi_SendChar(2);
 		return ERR_OK;
-	}else if (UTIL1_strcmp((char*)cmd, "BLDC sound a-team") == 0)
+	}else if (UTIL1_strcmp((char*)cmd, "BLDC sound ateam") == 0)
 	{
 		*handled = TRUE;
 		actualCmd = CMD_PLAY_SOUND;
@@ -293,6 +317,22 @@ byte BLDC_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIO
 		handleCS(CS_ENABLE);
 		(void) BLDCspi_SendChar(actualCmd);
 		BLDCspi_SendChar(6);
+		return ERR_OK;
+	}else if (UTIL1_strcmp((char*)cmd, "BLDC sound airwolf") == 0)
+	{
+		*handled = TRUE;
+		actualCmd = CMD_PLAY_SOUND;
+		handleCS(CS_ENABLE);
+		(void) BLDCspi_SendChar(actualCmd);
+		BLDCspi_SendChar(7);
+		return ERR_OK;
+	}else if (UTIL1_strcmp((char*)cmd, "BLDC sound imperial") == 0)
+	{
+		*handled = TRUE;
+		actualCmd = CMD_PLAY_SOUND;
+		handleCS(CS_ENABLE);
+		(void) BLDCspi_SendChar(actualCmd);
+		BLDCspi_SendChar(8);
 		return ERR_OK;
     }else if (UTIL1_strncmp((char*)cmd, "BLDC sound ", sizeof("BLDC sound")-1) == 0)
     {
